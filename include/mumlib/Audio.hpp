@@ -8,7 +8,7 @@
 
 namespace mumlib {
 
-    constexpr int SAMPLE_RATE = 48000;
+    constexpr int SAMPLE_RATE = 24000;
 
     class MumlibException;
 

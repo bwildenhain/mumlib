@@ -10,7 +10,7 @@
 
 namespace mumlib {
 
-    constexpr int DEFAULT_OPUS_ENCODER_BITRATE = 16000;
+    constexpr int DEFAULT_OPUS_ENCODER_BITRATE = 1500;
 
     using namespace std;
     using namespace boost::asio;

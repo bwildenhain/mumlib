@@ -2,7 +2,7 @@
 
 #include <boost/format.hpp>
 
-static boost::posix_time::seconds RESET_SEQUENCE_NUMBER_INTERVAL(5);
+static boost::posix_time::seconds RESET_SEQUENCE_NUMBER_INTERVAL(2);
 
 mumlib::Audio::Audio(int opusEncoderBitrate)
         : logger(log4cpp::Category::getInstance("mumlib.Audio")),
@@ -23,6 +23,8 @@ mumlib::Audio::Audio(int opusEncoderBitrate)
     }
 
     opus_encoder_ctl(opusEncoder, OPUS_SET_VBR(0));
+    opus_encoder_ctl(opusEncoder, OPUS_SET_BANDWIDTH(OPUS_BANDWIDTH_MEDIUMBAND));
+    opus_encoder_ctl(opusEncoder, OPUS_SET_SIGNAL(OPUS_SIGNAL_VOICE));
 
     setOpusEncoderBitrate(opusEncoderBitrate);
 
@@ -101,7 +103,7 @@ int mumlib::Audio::encodeAudioPacket(int target, int16_t *inputPcmBuffer, int in
     const int lastAudioPacketSentInterval = duration_cast<milliseconds>(
             system_clock::now() - lastEncodedAudioPacketTimestamp).count();
 
-    if (lastAudioPacketSentInterval > RESET_SEQUENCE_NUMBER_INTERVAL.total_milliseconds() + 1000) {
+    if (lastAudioPacketSentInterval > RESET_SEQUENCE_NUMBER_INTERVAL.total_milliseconds() + 200) {
         logger.debug("Last audio packet was sent %d ms ago, resetting encoder.", lastAudioPacketSentInterval);
         resetEncoder();
     }

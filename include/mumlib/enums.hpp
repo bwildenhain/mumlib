@@ -45,4 +45,10 @@ namespace mumlib {
         OPUS
     };
 
+    enum class PingState {
+        PING,
+        PONG,
+        NONE
+    };
+
 }
